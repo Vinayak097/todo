@@ -1,0 +1,30 @@
+*{
+  margin: 0;
+  
+  
+  padding: 0;
+  
+}
+
+.input{
+  padding: 10px;
+  margin: 4px;
+}
+#rendertodo{
+  margin:4px ;
+}
+#compl{
+  padding:10px
+}
+#app{
+  border: 1px solid white;
+  width: 100%;
+  padding: 50px;
+  
+}
+.list{
+  margin-top: 10px;
+  padding: 10px;
+
+}
+
