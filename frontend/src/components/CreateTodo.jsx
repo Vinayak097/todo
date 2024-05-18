@@ -1,8 +1,10 @@
 import { useState } from "react";
-
+import { backend_url } from "../../config";
+import axios from "axios";
 export function CreateTodo(){
     const [title,setTitle]=useState("")
-    const [description,setDescription]=useState(0);
+    const [description,setDescription]=useState("");
+    const [todos,setTodos]=useState();
     return <div id="createtd" >
         <input className="input" id="title" type="text" placeholder="title" onChange={function(e){ 
             const value=e.target.value;
@@ -14,21 +16,24 @@ export function CreateTodo(){
             setDescription(value)
         }}></input><br/>
         <button id="compl" onClick={()=>{
-    fetch("http://localhost:3000/todo",{
-        method:"POST",
+
+    axios.post(`${backend_url}todo/todo`,{
+        headers:{
+            autorization:localStorage.getItem("Ttoken")
+        },
         body:JSON.stringify({
             title: title,
-            description: description
+            description: description,
+            tag:"study"
         }),
-        headers:{
-            "Content-Type": "application/json" // Corrected header name
-        }
+            
     })
     .then(async function(res){
         const json = await res.json();
+        
         alert( json);
     })
-}}></button>
+}}>submit </button>
 
     </div>
 }
