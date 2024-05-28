@@ -1,8 +1,7 @@
 import React from 'react'
-
 import { Toaster } from 'react-hot-toast'
-
 import Authform from '../components/Authform'
+
 function Signup() {
   return (
     <>
@@ -13,4 +12,4 @@ function Signup() {
   )
 }
 
-export default Signup
+export default Signup  

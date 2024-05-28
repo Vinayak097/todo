@@ -61,12 +61,12 @@ function Authform({type}) {
                     var token=response.data.token;
                     localStorage.setItem("Ttoken",token)
                     
-                    navigate("/home")
+                    navigate("/todo")
                     setSpinner(false)
                 }
                 setSpinner(false)
             }catch(error){
-                console.log(error)
+                toast.error(error.message)
                 setSpinner(false)
             if(error.response.status==411){
                 toast.error("username/password incorrect") 
@@ -90,7 +90,7 @@ function Authform({type}) {
                     toast.success("signup success")
                     var token=response.data.token;
                     localStorage.setItem("Ttoken",token)
-                    navigate("/home")
+                    navigate("/todo")
                     setSpinner(false)
                 }
                 
@@ -99,7 +99,7 @@ function Authform({type}) {
                 setSpinner(false)
                 toast.error("failed to signup")
                 console.log(error)
-                if(response.status==400){
+                if(error.response.status==400){
                     
                     setusernameError("username alerady exist ")
                 }
@@ -122,17 +122,19 @@ function Authform({type}) {
         
         
         
-        <div className='border bg-secondary flex flex-1 justify-center h-screen items-center'>
+        <div className='border bg-yellow-100 flex flex-1 justify-center h-screen items-center'>
         <p className=' text-3xl px-5 fs-1 font-light text-primary  mx-4'>
-        Supercharge Your Day with todo! Your tasks, your way – Effortless,Efficient, Exceptional. Let's Get Things Done!
+            Supercharge Your Day with todo! Your tasks, your way – Effortless,Efficient, Exceptional. Let's Get Things Done!
         </p>
         
         </div>
         
-        <div className='border flex flex-col gap-4 flex-1 justify-center h-screen items-center'>
-        
+        <div className='border bg-blue-100 flex flex-col gap-4 flex-1 justify-center  items-center'>
+        <div className='text-3xl text-center mb-4 '>{type==="login"? "Login" :"Create an Account"}</div>
             <form onSubmit={formhandler}>
-                <div className='flex flex-col gap-2 h-20 '>
+              
+                <div className='flex flex-col gap-2 h-20  '>
+               
                 <div className=''>
                     <input className='p-2 bg-blue-50' type="text" placeholder='username'  required onChange={(e)=>{setUsername(e.target.value)}}/>
                     {usernameerror && (

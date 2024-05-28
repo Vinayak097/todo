@@ -1,7 +1,50 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import Tailwind CSS */
+@import 'tailwindcss/tailwind.css';
 
-.app{
-    background-color: antiquewhite;
+/* Add custom animation for strikethrough */
+.line-through-animation {
+  position: relative;
+  display: inline-block;
+}
+
+.line-through-animation::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;  /* Adjust thickness as needed */
+  background: currentColor;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left;  /* Start animation from the left */
+  transition: transform 1s ease-in-out;
+}
+
+.line-through-animation.added::after {
+  transform: translateY(-50%) scaleX(1);
+}
+.shodow-sm{
+  opacity: 12;
+
+}
+
+/*heading todo*/
+.line-through-animation::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 52%;
+  height: 2px;  /* Adjust thickness as needed */
+  background: currentColor;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left;  /* Start animation from the left */
+  transition: transform 1s ease-in-out;
+}
+.line-through-animations.added::after {
+  transform: translateY(-50%) scaleX(1);
+}
+.line-through-animations {
+  position: relative;
+  display: inline-block;
 }
