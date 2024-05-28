@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useRecoilValue } from 'recoil';
 import Todocard from '../components/Todocard';
@@ -7,19 +7,38 @@ import { GetTodos } from '../hooks/getMyTodos';
 import { getsetPage, getsetTodos } from '../store/atomstore';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
+import { useAddTodo } from '../hooks/addTodo';
+import Form from "react-bootstrap/Form";
+import { Toaster } from 'react-hot-toast';
+import Spinner from 'react-bootstrap/Spinner';
 function Todo() {
   const { loader, mytodos } = GetTodos();
+  const [addloader,setaddloader]=useState(false);
   const [modalShow, setModalShow] = React.useState(false);
+  const [newtodoTitle,setnewtodoTitle]=useState("")
+  const [newtododescription,setnewtodoDescription]=useState("");
+  const [newtodotag,setnewtodoTag]=useState("work")
+  const {addTodo}=useAddTodo();
+  
+
 
   // If not used, consider removing it
   // const changePage = (page) => {
   //   SetcuurnetPage(page);
   // };
 
-  const addTodoHandler = () => {
+  const handleshowModel = () => {
     setModalShow(true);
   };
+  const addTodoHandler =async ()=>{
+    setaddloader(true)
+    const res=await addTodo(newtodoTitle,newtododescription,newtodotag);
+    setaddloader(false)
+    console.log("add rs ",res)
+  
+    console.log("todo added ")
+    handleCloseModal()
+  }
 
   const handleCloseModal = () => {
     setModalShow(false);
@@ -27,28 +46,60 @@ function Todo() {
 
   return (
     <div className='h-screen'>
+      <Toaster></Toaster>
       <Modal
         show={modalShow} // Added to control visibility
         onHide={handleCloseModal} // Added to control closing the modal
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton >
           <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
+            Add todo item
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <h4>Centered Modal</h4>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </p>
+        <Modal.Body >
+          <Form>
+          <Form.Group className='mb-3 '>
+            <Form.Label>
+              Title
+            </Form.Label>
+            <Form.Control type="text"
+            rows={2}
+            autoFocus
+            onChange={(e)=>{setnewtodoTitle(e.target.value)}}
+            >
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      onChange={(e) => setnewtodoDescription(e.target.value)}
+                    />
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label>Tag</Form.Label>
+            <Form.Control as="select" className='me-2' onChange={(e)=>{setnewtodoTag(e.target.value)}}>
+              <option value="work">work</option>
+              <option value="self">self</option>
+              <option value="study">study</option>
+              <option value="other">other</option>
+            </Form.Control>
+          </Form.Group>
+
+
+
+          </Form>
+          
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleCloseModal}>Close</Button> {/* Updated */}
+          <Button className='border rounded-full' variant='success' onClick={()=>{addTodoHandler()}}>{addloader?<Spinner animation='grow'></Spinner>:"Add todo"}</Button>
+          <Button className='shadow' variant='light' onClick={handleCloseModal}>Close</Button> {/* Updated */}
         </Modal.Footer>
       </Modal>
 
@@ -56,7 +107,7 @@ function Todo() {
         <div className='mt-8'>
           <nav className='text-orange-900 flex justify-between'>
             <h1 className='text-4xl font-bold'>Todo</h1>
-            <button onClick={addTodoHandler} className='text-5xl font-bold'>
+            <button onClick={handleshowModel} className='text-5xl font-bold'>
               +
             </button>
           </nav>
@@ -89,8 +140,11 @@ function Todo() {
                 ))}
               </div>
             ) : (
-              <div className='flex h-full w-full justify-center items-center'>
+              <div className='flex gap-2  h-full w-full justify-center items-center'>
                 <p>No todos available.</p>
+                <div className=' '>
+                  <button onClick={()=>{handleshowModel()}} className='p-2 rounded-full shadow bg-slate-100 text-zinc-600'> add todo</button>
+                </div>
               </div>
             )}
           </div>

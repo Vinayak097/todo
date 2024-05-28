@@ -9,13 +9,15 @@ import { getsetTodos } from "../store/atomstore"
 import { useNavigate } from "react-router-dom"
 
 
-export const useAddTodo = () => { 
+export const useUpAndDel = () => { 
+  const updateUrl = `${backend_url}/todo/update/`;
+  const deleteUrl = `${backend_url}/todo/delete`;
     const navigate=useNavigate();
     const [mytodos, setmytodos] = useRecoilState(getsetTodos);
   
 
-    const addTodo = async (title, description, tag) => { 
-      const addurl = `${backend_url}/todo/todo`;
+    const upDate = async (title, description, tag) => { 
+      
       const obj = { title, description, tag };
   
       try {
@@ -46,5 +48,5 @@ export const useAddTodo = () => {
     };
   
     // Updated returned object to use addTodo
-    return { addTodo }; 
+    return { upDate }; 
   };

@@ -9,11 +9,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
     <RecoilRoot>
-    <App />
+      <App />
     </RecoilRoot>
-    
-    
     </BrowserRouter>
-    
   </React.StrictMode>,
 )

@@ -21,7 +21,7 @@ export const GetTodos = () => {
                         authorization: token
                     }
                 });
-                setmytodos(response.data.Todos);
+                setmytodos(response.data.Todos.reverse());
                 setloader(false);
             } catch (e) {
                 setloader(false);
