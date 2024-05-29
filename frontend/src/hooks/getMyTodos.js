@@ -21,8 +21,15 @@ export const GetTodos = () => {
                         authorization: token
                     }
                 });
+               console.log(response)
+
+               
+                
                 setmytodos(response.data.Todos.reverse());
+                
+                
                 setloader(false);
+               
             } catch (e) {
                 setloader(false);
                 toast.error("Error fetching todos: " + e.message);
