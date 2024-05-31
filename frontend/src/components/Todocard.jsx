@@ -25,7 +25,7 @@ function Todocard({ title, description, tag, completed, id }) {
   const [updateload,setuploader]=useState(false);
   const [newTodoDesc, setNewTodoDesc] = useState(null);
   const [newTodoTitle, setNewTodoTitle] = useState(null);
-
+  const [deleteloader,setdeleteloder]=useState(false);
   const [selectedTag, setSelectedTag] = useState("work");
   const [showupdate,setshowupdate]=React.useState(false)
   
@@ -98,6 +98,7 @@ function Todocard({ title, description, tag, completed, id }) {
   const deletefun=async(key)=>{
     console.log("key",key)
     const todo=mytodos.find(todo=>todo._id==key)
+    setdeleteloder(true)
     if(!todo){
       toast.error("todo not found ")
       return
@@ -106,12 +107,16 @@ function Todocard({ title, description, tag, completed, id }) {
       const response= await axios.delete(deleteUrl+todo._id,{
         headers :{authorization:token}
       })
+      setdeleteloder(false)
       if(response.status==200){
         const filtertodo=mytodos.filter(T=>T._id !=todo._id)
         setmytodos(filtertodo)
        
       }
+      
+      
     }    catch(err){
+      setdeleteloder(false)
       console.log(err)
       toast.error("failed to delete ")
     }
